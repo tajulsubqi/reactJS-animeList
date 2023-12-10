@@ -22,14 +22,15 @@ const App = () => {
   const getAnimeList = async () => {
     try {
       if (text === "") {
-        return
+        return false
       }
 
       const response = await instance.get("/anime", {
-        params: { title: text },
+        params: {
+          q: text,
+        },
       })
       setAnimes(response.data.data)
-      console.log(response.data.data)
     } catch (error) {
       console.log(error)
     }
@@ -50,7 +51,7 @@ const App = () => {
             />
             <button
               onClick={getAnimeList}
-              className="bg-primary px-3 py-1 text-white font-medium ml-1 rounded-md"
+              className="bg-primary px-3 py-1 text-white font-medium ml-1 rounded-md hover:bg-sky-700 duration-300"
             >
               search
             </button>

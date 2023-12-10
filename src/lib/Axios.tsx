@@ -1,7 +1,7 @@
 import axios from "axios"
 
-const instace = axios.create({
+const instance = axios.create({
   baseURL: "https://api.jikan.moe/v4",
 })
 
-export default instace
+export default instance
