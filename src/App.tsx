@@ -1,19 +1,7 @@
 import { useState } from "react"
 import instance from "./lib/Axios"
-
-interface Anime {
-  mal_id: number
-  title: string
-  title_japanese: string
-  season: string
-  duration: string
-  episodes: number
-  images: {
-    webp: {
-      image_url: string
-    }
-  }
-}
+import AnimeList from "./components/AnimeList/AnimeList"
+import Anime from "./types/Anime"
 
 const App = () => {
   const [text, setText] = useState("")
@@ -36,6 +24,13 @@ const App = () => {
     }
   }
 
+  // Pemeriksaan jika tombol yang ditekan adalah tombol "Enter"
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      getAnimeList()
+    }
+  }
+
   return (
     <>
       <div className="container">
@@ -46,6 +41,7 @@ const App = () => {
               type="text"
               placeholder="search anime ..."
               value={text}
+              onKeyDown={handleKeyDown}
               onChange={(e) => setText(e.target.value)}
               className="border border-slate-400 rounded-md px-3 py-1"
             />
@@ -57,32 +53,7 @@ const App = () => {
             </button>
           </div>
 
-          <div className="container my-8  flex flex-wrap justify-center gap-4">
-            {animes.map((anime: Anime) => (
-              <div key={anime.mal_id} className="">
-                <div className="card w-[300px] h-[550px] bg-slate-50  p-2 rounded-sm shadow-lg border-slate-300 border">
-                  <img
-                    src={anime.images.webp.image_url}
-                    alt="png"
-                    className="h-[350px] w-full"
-                  />
-                  <div>
-                    <h3 className="text-sm font-medium mt-2">Judul: {anime.title}</h3>
-                    <h3 className="text-sm font-medium mt-2">
-                      Japanese: {anime.title_japanese}
-                    </h3>
-                    <h3 className="text-sm font-medium mt-2">Season: {anime.season}</h3>
-                    <h3 className="text-sm font-medium mt-2">
-                      Duration: {anime.duration}
-                    </h3>
-                    <h3 className="text-sm font-medium mt-2">
-                      Episode: {anime.episodes}
-                    </h3>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <AnimeList api={animes} />
         </div>
       </div>
     </>
